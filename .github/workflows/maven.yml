@@ -30,8 +30,8 @@ jobs:
     - name: Upload app.jar
       uses: actions/upload-artifact@v2  
       with:
-        name: app
-        path: target/*.jar  # This uploads all .jar files in the target directory
+        name: app-jar
+        path: target/app.jar  # This uploads all .jar files in the target directory
   buildDocker:
     needs: build
     runs-on: ubuntu-latest
@@ -40,10 +40,9 @@ jobs:
     - name: Download Artifacts
       uses: actions/download-artifact@v2
       with:
-        name: app
-        path: target/*.jar
+        name: app-jar
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag test-app:$(date +%s)
+      run: docker build . --file Dockerfile --tag app:$(date +%s)
       
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     #- name: Update dependency graph
