@@ -31,7 +31,6 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - name: Upload Artifacts
     - uses: actions/upload-artifact@v2  
       with:
         name: app
@@ -45,7 +44,6 @@ jobs:
       with:
         name: jar-files
         path: target
-    - uses: actions/checkout@v4
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag test-app:$(date +%s)
       
