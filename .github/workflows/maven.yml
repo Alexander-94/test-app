@@ -39,8 +39,8 @@ jobs:
     - name: Download Artifacts
       uses: actions/download-artifact@v2
       with:
-        name: jar-files
-        path: target
+        name: app
+        path: target/*.jar
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag test-app:$(date +%s)
       
