@@ -15,7 +15,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  buildJar:
+  build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -27,15 +27,15 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn clean verify --file pom.xml
-  uploadJar: Upload the .jar file as an artifact
-    needs: buildJar
+  upload: Upload the .jar file as an artifact
+    needs: build
     steps:
     - uses: actions/upload-artifact@v2  
       with:
         name: app
         path: target/*.jar  # This uploads all .jar files in the target directory
   buildDocker:
-    needs: uploadJar
+    needs: upload
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
