@@ -26,17 +26,14 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn clean verify --file pom.xml
-  upload:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/upload-artifact@v2  
+      run: mvn clean verify --file pom.xml  
+    - name: Upload app.jar
+      uses: actions/upload-artifact@v2  
       with:
         name: app
         path: target/*.jar  # This uploads all .jar files in the target directory
   buildDocker:
-    needs: upload
+    needs: build
     runs-on: ubuntu-latest
     steps:
     - name: Download Artifacts
