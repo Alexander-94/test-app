@@ -14,6 +14,11 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  # Use docker.io for Docker Hub if empty
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.actor }}/test-app:latest
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -30,8 +35,14 @@ jobs:
     - name: Build with Maven
       run: mvn clean verify --file pom.xml
 
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag app:$(date +%s)
+    - name: Login
+      run: |
+        echo ${{ secrets.PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+  
+    - name: Build the Docker image and Publish
+      run: |
+        docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
       
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     #- name: Update dependency graph
