@@ -9,6 +9,6 @@ public class TestServiceImpl implements TestService {
     @Override
     public TestResponse getResponse() {
         System.out.println("Reponse generated.");
-        return new TestResponse("777");
+        return new TestResponse("100500");
     }
 }
