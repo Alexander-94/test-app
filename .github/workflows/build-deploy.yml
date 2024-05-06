@@ -35,7 +35,7 @@ jobs:
     - name: Build with Maven
       run: mvn clean verify --file pom.xml
 
-    - name: Login
+    - name: Login to ghcr.io
       run: |
         echo ${{ secrets.PAT }} | docker login ghcr.io -u alexander-94 --password-stdin
 
@@ -52,13 +52,10 @@ jobs:
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
 
-    - name: Login to GitHub Container Registry
-      uses: docker/login-action@v2
-      with:
-        registry: ghcr.io
-        username: alexander-94
-        password: ${{ secrets.PAT }}
-    
+    - name: Login to ghcr.io
+      run: |
+        echo ${{ secrets.PAT }} | docker login ghcr.io -u alexander-94 --password-stdin
+
     - name: Connect to the server, pull the Docker image and run
       run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && docker compose pull && docker compose up -d && exit"
 
