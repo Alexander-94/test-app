@@ -18,7 +18,7 @@ env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   ACTOR: alexander-94
-  IMAGE_NAME: ${{ env.actor }}/test-app:latest
+  IMAGE_NAME: ${{ env.ACTOR }}/test-app:latest
 
 jobs:
   build:
@@ -38,7 +38,7 @@ jobs:
 
     - name: Login
       run: |
-        echo ${{ secrets.PAT }} | docker login ghcr.io -u ${{ env.actor }} --password-stdin
+        echo ${{ secrets.PAT }} | docker login ghcr.io -u ${{ env.ACTOR }} --password-stdin
   
     - name: Build the Docker image and Publish
       run: |
