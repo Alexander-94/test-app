@@ -1,4 +1,4 @@
-FROM --platform=linux/arm64 arm64v8/amazoncorretto:21 as builder
+FROM amazoncorretto:21 as builder
 
 ARG JAR_FILE=target/*.jar
 WORKDIR /builder_dir
@@ -6,7 +6,7 @@ COPY ${JAR_FILE} app.jar
 HEALTHCHECK NONE
 RUN java -Djarmode=layertools -jar app.jar extract
 
-FROM --platform=linux/arm64 arm64v8/amazoncorretto:21
+FROM amazoncorretto:21
 VOLUME /tmp
 
 ARG BUILDER_DIR=builder_dir
