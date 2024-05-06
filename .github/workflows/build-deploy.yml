@@ -41,7 +41,7 @@ jobs:
 
     - name: Build the Docker image and Publish to the ghcr.io
       run: |
-        docker build . --file Dockerfile --platform linux/arm64 --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        docker buildx build . --file Dockerfile --platform linux/arm64 --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
         docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
     - name: Install ssh keys
